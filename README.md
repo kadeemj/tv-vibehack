@@ -212,6 +212,12 @@ Things that bit us or contributors, so they don't bite you.
 - **Large pushes hang** through the Python client. Use `tools/b64push.py` for APKs.
 - **Screenshots come out empty** while Live TV or an HDMI input is on screen, seen on TCL. Press
   Home before `screencap`.
+- **"Unsafe app blocked" from Play Protect** on Google TV 14 when installing the launcher: the
+  firmware rejects sideloaded apps that target an old SDK. The launcher now targets SDK 34.
+- **Home does nothing after disabling launcherx**, seen on Hisense Google TV:
+  `com.google.android.tungsten.setupwraith/.RecoveryActivity` claims HOME at priority 1 and beats
+  any third-party launcher. Shell can't disable just that component, so disable the package
+  (`pm disable-user --user 0 com.google.android.tungsten.setupwraith`). A factory reset re-enables it.
 - **Disable the stock launcher only after the new one is installed**, or the Home button lands on
   a factory test app.
 - **No on-screen keyboard** after switching launchers, seen on Xiaomi: the default input method

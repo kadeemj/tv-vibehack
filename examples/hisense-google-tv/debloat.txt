@@ -1,0 +1,37 @@
+# Hisense Google TV (model "SmartTV 4K FFM", maker HVCL, device wutaishan), Android TV 14,
+# firmware UKN6.251123.001.049. Also a starting point for other Hisense Google TV sets (com.vt.* system apps).
+#
+# Apply:   TV_HOST=<tv ip> tools/disable.sh examples/hisense-google-tv/debloat.txt
+# Undo:    TV_HOST=<tv ip> tools/restore.sh examples/hisense-google-tv/debloat.txt com.google.android.apps.tv.launcherx
+# Everything is DISABLED, not uninstalled. Comment out any line you want to keep.
+#
+# Kept on purpose: Google Assistant (com.google.android.katniss), Chromecast (com.google.android.apps.mediashell),
+# AirPlay (com.mediatek.*airplay*), firmware updates (com.vt.tv.ota, com.vt.remoteupgrade). The other com.vt.*
+# packages run the tuner, inputs and picture pipeline; leave them alone.
+#
+# Known quirk: Play Protect blocks sideloaded apps that target an old SDK ("built for an older version of
+# Android"), so the launcher must target a current SDK on this firmware.
+
+# Hisense / VIDAA content and ad rows
+net.vidaatv.android.tv                 # VIDAA channels (free ad-supported TV)
+net.vidaatv.hisense.android.tv         # Hisense channels
+com.vidaa.oemtabcontentprovider        # "Hisense" tab on the Google TV home screen
+com.vt.tv.mobiledeviceconnectiontips   # phone connection tips pop-ups
+com.vt.storemode                       # retail demo mode
+
+# Preloaded apps
+com.hisense.odinbrowser
+com.google.android.play.games
+com.google.android.youtube.tvmusic
+com.vt.alexa                           # Alexa bridge
+
+# Feedback / telemetry
+com.google.android.feedback
+com.android.tv.feedbackconsent
+
+# Stock Google TV launcher (sponsored rows, Freeplay), replaced by launcher/. Install the new launcher first.
+com.google.android.apps.tv.launcherx
+# Setup wizard. With launcherx off, its RecoveryActivity (HOME, priority 1) outranks any third-party
+# launcher and Home does nothing; shell cannot disable just that component. Only used after a factory
+# reset, which re-enables it.
+com.google.android.tungsten.setupwraith

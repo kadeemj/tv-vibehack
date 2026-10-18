@@ -9,9 +9,10 @@ android {
     defaultConfig {
         applicationId 'com.gathin.tvhome'
         minSdk 26
-        targetSdk 29
-        versionCode 2
-        versionName '2.0'
+        // Google TV's Play Protect blocks sideloaded apps that target old SDKs, so keep this current.
+        targetSdk 34
+        versionCode 3
+        versionName '2.1'
     }
 
     buildTypes {
