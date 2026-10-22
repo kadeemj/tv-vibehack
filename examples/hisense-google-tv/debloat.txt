@@ -35,3 +35,17 @@ com.google.android.apps.tv.launcherx
 # launcher and Home does nothing; shell cannot disable just that component. Only used after a factory
 # reset, which re-enables it.
 com.google.android.tungsten.setupwraith
+
+# Second pass (2026-10-21): service tools and modes no consumer set needs
+com.vt.hishow                          # Hisense promo/info app
+com.vt.eula                            # license nag app
+com.vt.factory                         # factory/service test app
+com.vt.fte                             # first-time setup wizard
+com.vt.tv.b2b                          # hotel/commercial mode
+com.vt.tv.calmanconnector              # CalMAN pro-calibration hook-up
+com.vt.roomcalibration                 # pro room calibration
+com.vt.tv.usbota                       # USB-stick firmware updater
+com.vt.tv.protector                    # Hisense lock/protect app
+com.vt.tv.singlelisten                 # single-speaker mode
+com.vt.tv.ai_sense                     # AI sensor extras
+com.vt.customsettings                   # Hisense custom settings page
