@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Frosted rounded chip behind each app icon: one calm shape for every app. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <corners android:radius="16dp" />
+    <solid android:color="#2EFFFFFF" />
+</shape>
