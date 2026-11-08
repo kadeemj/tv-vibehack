@@ -5,10 +5,13 @@
     android:layout_height="match_parent"
     android:background="#FF000000">
 
-    <!-- Wallpaper from the user's reference: moonlit teal landscape, drawn in code (sharp at any resolution). -->
-    <com.gathin.tvhome.LandscapeView
+    <!-- Wallpaper: the user's 3D-render photo, baked at 4K into the APK. -->
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/wallpaper"
+        android:contentDescription="@null" />
 
     <!-- Ambient glow in the colour of the focused dock app (grid mode only). -->
     <View
@@ -48,6 +51,14 @@
         android:fontVariationSettings="'wght' 300"
         android:letterSpacing="-0.02"
         android:includeFontPadding="false" />
+
+    <!-- App-row highlight: a frosted pill that glides behind the focused row (drawn under the list). -->
+    <com.gathin.tvhome.GlassView
+        android:id="@+id/glassRow"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:alpha="0"
+        android:importantForAccessibility="no" />
 
     <!-- The photo-style app list. -->
     <androidx.recyclerview.widget.RecyclerView

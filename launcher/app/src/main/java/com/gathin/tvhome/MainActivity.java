@@ -66,6 +66,11 @@ public class MainActivity extends Activity implements AppAdapter.TileListener, L
     private ListAppAdapter listAdapter;
     /** The "All apps" pill — Right from the list lands here. */
     private TextView btnAllApps;
+    /** Row highlight: a second glass slab that lives under the list. */
+    private GlassView glassRow;
+    private SpringAnimation springRowX, springRowY;
+    private boolean glassRowShown;
+    private float glassRowTargetX, glassRowTargetY;
     /** true: the photo-style app list; false: the old tvOS grid ("All apps"). */
     private boolean listMode = true;
     // Static so they survive the activity being destroyed while another app is open (low-memory TVs,
@@ -178,6 +183,25 @@ public class MainActivity extends Activity implements AppAdapter.TileListener, L
         list.setAdapter(listAdapter);
         grid.setVisibility(View.GONE);
 
+        // Row-highlight glass and its springs (same feel as the grid's highlight).
+        glassRow = findViewById(R.id.glassRow);
+        springRowX = new SpringAnimation(glassRow, DynamicAnimation.TRANSLATION_X);
+        springRowY = new SpringAnimation(glassRow, DynamicAnimation.TRANSLATION_Y);
+        for (SpringAnimation s : new SpringAnimation[]{springRowX, springRowY}) {
+            s.setSpring(new SpringForce().setStiffness(300f).setDampingRatio(0.62f));
+        }
+
+        // Keep the row highlight glued to its row while the list scrolls.
+        list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView rv, int dx, int dy) {
+                if (!glassRowShown) return;
+                glassRowTargetY -= dy;
+                if (springRowY.isRunning()) springRowY.animateToFinalPosition(glassRowTargetY);
+                else glassRow.setTranslationY(glassRowTargetY);
+            }
+        });
+
         // Hide the glass when focus leaves the tiles.
         getWindow().getDecorView().getViewTreeObserver().addOnGlobalFocusChangeListener((oldF, newF) -> {
             boolean onTile = newF != null && newF.getId() == R.id.card;
@@ -193,6 +217,8 @@ public class MainActivity extends Activity implements AppAdapter.TileListener, L
         super.onResume();
         glassShown = false;
         glass.setAlpha(0f);
+        glassRowShown = false;
+        glassRow.setAlpha(0f);
         heroShown = false;
         heroName.setAlpha(0f);
         ambient.setAlpha(0f);
@@ -278,13 +304,44 @@ public class MainActivity extends Activity implements AppAdapter.TileListener, L
         list.smoothScrollToPosition(pos);
     }
 
-    /** Row focus in list mode: remember it and keep the row fully on screen. */
+    /** Row focus in list mode: remember it, keep it on screen, and glide the highlight behind it. */
     @Override
     public void onRowFocused(int position, View row) {
         lastFocused = position;
         lastFocusedKey = listAdapter.keyAt(position);
         Rect r = new Rect(0, 0, row.getWidth(), row.getHeight());
         list.requestChildRectangleOnScreen(row, r, false);
+
+        // Highlight spans the icon chip plus the label, with breathing room, in root coordinates.
+        View label = row.findViewById(R.id.label);
+        int left = row.getPaddingLeft() - (int) (4 * density);
+        int right = Math.max(left + 1, (label != null ? label.getRight() : row.getWidth()) + (int) (18 * density));
+        Rect hl = new Rect(left, 0, right, row.getHeight());
+        root.offsetDescendantRectToMyCoords(row, hl);
+
+        float pad = 6f * density;   // matches GlassView's glow inset
+        int w = hl.width() + (int) (2 * pad);
+        int h = hl.height() + (int) (2 * pad);
+        ViewGroup.LayoutParams lp = glassRow.getLayoutParams();
+        if (lp.width != w || lp.height != h) {
+            lp.width = w;
+            lp.height = h;
+            glassRow.setLayoutParams(lp);
+            glassRow.setRadius(Math.min(h / 2f, 34f * density));
+        }
+        glassRowTargetX = hl.exactCenterX() - w / 2f;
+        glassRowTargetY = hl.exactCenterY() - h / 2f;
+        if (!glassRowShown) {
+            springRowX.cancel();
+            springRowY.cancel();
+            glassRow.setTranslationX(glassRowTargetX);
+            glassRow.setTranslationY(glassRowTargetY);
+            glassRow.animate().alpha(1f).setDuration(160).start();
+            glassRowShown = true;
+        } else {
+            springRowX.animateToFinalPosition(glassRowTargetX);
+            springRowY.animateToFinalPosition(glassRowTargetY);
+        }
     }
 
     /** Left/Right on a list row: Right jumps to the bottom-right pills; Left is the screen edge. */
@@ -395,6 +452,10 @@ public class MainActivity extends Activity implements AppAdapter.TileListener, L
     }
 
     private void hideGlass() {
+        if (glassRowShown) {
+            glassRowShown = false;
+            glassRow.animate().alpha(0f).setDuration(160).start();
+        }
         if (!glassShown) return;
         glassShown = false;
         glass.animate().alpha(0f).setDuration(160).start();

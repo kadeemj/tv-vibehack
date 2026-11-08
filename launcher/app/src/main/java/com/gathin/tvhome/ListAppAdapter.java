@@ -94,7 +94,7 @@ public class ListAppAdapter extends RecyclerView.Adapter<ListAppAdapter.Holder> 
         h.icon.setImageDrawable(e.icon);
         h.label.setText(e.label);
         boolean focused = h.row.isFocused();   // a rebind after reload() can hit the focused row
-        h.label.setAlpha(focused ? 1f : 0.88f);
+        h.label.setAlpha(focused ? 1f : 0.62f);
         h.chip.setScaleX(focused ? 1.10f : 1f);
         h.chip.setScaleY(focused ? 1.10f : 1f);
         h.row.setOnClickListener(v -> launch(e));
@@ -172,7 +172,7 @@ public class ListAppAdapter extends RecyclerView.Adapter<ListAppAdapter.Holder> 
                         .setDuration(focused ? 220 : 180)
                         .setInterpolator(new android.view.animation.OvershootInterpolator(focused ? 1.5f : 0f))
                         .start();
-                label.animate().alpha(focused ? 1f : 0.88f)
+                label.animate().alpha(focused ? 1f : 0.62f)
                         .setDuration(180).start();
                 int pos = getBindingAdapterPosition();
                 if (focused && listener != null && pos != RecyclerView.NO_POSITION) {
