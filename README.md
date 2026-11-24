@@ -3,10 +3,13 @@
 **Your TV, minus the ads.**
 
 Strip the bloatware from any Android TV or Google TV over Wi-Fi, and replace the ad-filled home
-screen with a clean launcher that looks like an Apple TV. No root, no cable, nothing uninstalled,
-and a one-line restore if you change your mind.
+screen with a clean launcher: your apps over a photo, and nothing else. No root, no cable, nothing
+uninstalled, and a one-line restore if you change your mind.
 
-![Before: stock Google TV home with a sponsored ad. After: the tv-vibehack launcher](docs/stock-vs-new-side.jpg)
+![Before: stock Google TV home with a sponsored ad. After: an earlier version of the tv-vibehack launcher](docs/stock-vs-new-side.jpg)
+
+*The "after" photo shows an earlier design. The current home screen is described under
+[What you get](#what-you-get).*
 
 It started as an afternoon fixing my parents' Mi TV, which showed them an advert before they
 could reach Netflix. The whole thing was done with Claude Code talking to the real TV, and the
@@ -155,7 +158,7 @@ AndroidX RecyclerView and nothing heavier. It is built for sets with 1 GB of RAM
 video, no network, no background services.
 
 **Configure** it in [`launcher/app/src/main/res/values/config.xml`](launcher/app/src/main/res/values/config.xml):
-the dock order, apps to hide, your TV's Live TV package, and the number of columns.
+your favourite apps and their order, apps to hide, and the number of columns in the grid.
 
 **Build and install** with one command:
 
@@ -174,9 +177,10 @@ Without Homebrew, the script also finds a JDK 17 known to `/usr/libexec/java_hom
 `~/Library/Android/sdk`, Android Studio's default. A release build (`./gradlew assembleRelease`)
 is smaller and faster on 1 GB sets; sign it yourself before installing.
 
-**Navigation** is deliberate: Up and Down move exactly one row, Up from the dock goes to the top
-buttons, the ends of the button row don't fall through to tiles, and the last focused app is
-remembered when you come back, even after the app list changes.
+**Navigation** is deliberate: Up and Down move exactly one row, Right from the list jumps to the
+two buttons and Left goes back to the row you left, the ends of the button row don't fall through
+to anything else, and Back from the grid returns to the list. The last focused app is remembered
+when you come back, even after the app list changes.
 
 <details>
 <summary><strong>Optional: the Clock screensaver</strong></summary>
