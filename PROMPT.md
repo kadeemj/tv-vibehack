@@ -52,8 +52,8 @@ Launcher
   the apps in a 4-column grid below that scrolls up when I press Down; one translucent "glass" highlight
   that springs from tile to tile instead of per-tile borders; the focused tile scales up slightly and
   shows its name underneath; above the dock, the focused dock app's name in large light type with an
-  ambient glow in a colour sampled from its banner; frosted pill buttons top right for Inputs, Wi-Fi
-  (showing the network name) and Settings; a greeting, a large thin clock and the date top left in a
+  ambient glow in a colour sampled from its banner; frosted pill buttons top right for Inputs and
+  Settings; a greeting, a large thin clock and the date top left in a
   downloaded open-licence typeface such as Outfit. Inputs opens a compact glass dropdown under the pill
   listing the HDMI ports, AV and Live TV, switching via the TV input framework.
 - Make D-pad navigation deterministic: Up/Down move exactly one row, Up from the dock goes to the top

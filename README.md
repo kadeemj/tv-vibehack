@@ -76,7 +76,7 @@ A home screen that is yours again:
 - **The rest of your apps in a grid** that slides up when you press Down.
 - **One floating glass highlight** that springs from tile to tile instead of each tile drawing its
   own border. The focused tile lifts slightly and shows its name.
-- **Two frosted buttons**: Inputs (a dropdown of HDMI ports, AV and Live TV) and Settings.
+- **Two frosted buttons**, bottom right: All apps (opens the full grid) and Settings.
 - **A greeting, a large thin clock and the date**, set in
   [Outfit](https://fonts.google.com/specimen/Outfit).
 - **A matching Clock screensaver**, optional, that drifts around the screen so nothing burns in.
