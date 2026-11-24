@@ -246,8 +246,10 @@ that have been stable for over a decade.
 
 **How did it get access? Isn't that a security hole?**
 Through the Android Debug Bridge, with one explicit "allow this computer" tap on the TV, the same
-as developing an Android app. The TV only trusts the key you approved. You can switch USB
-debugging off again afterwards and the launcher keeps working.
+as developing an Android app. The TV only trusts the key you approved. While debugging is
+on, the TV listens for ADB on your home network (port 5555) and the private key in `tools/adbkey/`
+is a full shell on it, so switch USB debugging off again when you're done. The launcher keeps
+working without it.
 
 **Can I just download the launcher APK?**
 Build it yourself with the one-line script above; it takes about a minute and you control what

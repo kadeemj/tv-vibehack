@@ -10,8 +10,13 @@ STOCK="${2:-com.google.android.tvlauncher}"
 PY=tools/venv/bin/python
 [ -x "$PY" ] || PY=tools/venv/Scripts/python.exe
 export MSYS_NO_PATHCONV=1
+# Entries are pasted into shell commands that run on the TV, so accept plain package names only.
+PKGS=$(tr -d '\r' < "$LIST" | grep -vE '^\s*(#|$)' | sed -E 's/\s+#.*$//' | awk '{print $1}' || true)
+BAD=$(printf '%s\n' "$PKGS" | grep -vE '^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*$' | grep -v '^$' || true)
+[ -z "$BAD" ] || { echo "refusing to run: not a package name in $LIST:"; printf '%s\n' "$BAD" | sed 's/^/  /'; exit 1; } >&2
+case "$STOCK" in *[!A-Za-z0-9_.]*|"") echo "refusing to run: not a package name: $STOCK" >&2; exit 1 ;; esac
 {
-  grep -vE '^\s*(#|$)' "$LIST" | sed -E 's/\s+#.*$//' | awk '{print "pm enable " $1}'
+  [ -z "$PKGS" ] || printf '%s\n' "$PKGS" | awk '{print "pm enable " $1}'
   echo "pm enable $STOCK"
   # resolve the stock HOME component on the TV (Android 9 needs pkg/activity, not just pkg)
   echo "cmd package set-home-activity --user 0 \$(cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.HOME $STOCK | tail -n 1)"

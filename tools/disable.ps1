@@ -17,6 +17,9 @@ if (-not (Test-Path $py)) { throw 'run: python -m venv tools\venv; tools\venv\Sc
 if (-not $TvHost) { throw 'pass -TvHost <tv ip> or set $env:TV_HOST' }
 $env:TV_HOST = $TvHost
 
-$pkgs = Get-Content $List | ForEach-Object { ($_ -replace '#.*$', '').Trim() } | Where-Object { $_ }
+$pkgs = @(Get-Content $List | ForEach-Object { (($_ -replace '#.*$', '').Trim() -split '\s+')[0] } | Where-Object { $_ })
+# Entries are pasted into shell commands that run on the TV, so accept plain package names only.
+$bad = @($pkgs | Where-Object { $_ -notmatch '^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*$' })
+if ($bad) { throw "refusing to run: not a package name in ${List}: $($bad -join ', ')" }
 $cmds = @($pkgs | ForEach-Object { "pm disable-user --user 0 $_" }) + 'pm list packages -d'
 $cmds | & $py -I (Join-Path $repo 'tools\tv.py') --batch

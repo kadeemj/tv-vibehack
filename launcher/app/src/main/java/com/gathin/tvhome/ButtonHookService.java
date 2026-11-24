@@ -37,7 +37,6 @@ public class ButtonHookService extends AccessibilityService {
     protected boolean onKeyEvent(KeyEvent event) {
         if (event.getAction() != KeyEvent.ACTION_DOWN) return false;
         int scan = event.getScanCode();
-        Log.d(TAG, "key code=" + event.getKeyCode() + " scan=" + scan);
         String pkg = null;
         if (scan == SCAN_YOUTUBE) {
             // The classic YouTube app first; "tvunplugged" is the YouTube TV live service.

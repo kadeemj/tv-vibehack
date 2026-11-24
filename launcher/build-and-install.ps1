@@ -10,6 +10,7 @@ param(
 $ErrorActionPreference = 'Stop'
 # Pipe plain UTF-8 to native commands; the default here prepends a BOM that corrupts the first command.
 $OutputEncoding = New-Object System.Text.UTF8Encoding $false
+if ($StockLauncher -notmatch '^[A-Za-z0-9_.]+$') { throw "not a package name: $StockLauncher" }
 if (-not $TvHost) { throw 'pass -TvHost <tv ip> or set $env:TV_HOST' }
 $env:TV_HOST = $TvHost
 Set-Location $PSScriptRoot
@@ -39,7 +40,6 @@ $out = & $py -I ..\tools\tv.py 'cmd package set-home-activity --user 0 com.gathi
 Write-Host $out
 if ("$out" -match 'Error') { throw 'could not set the new launcher as home; the stock launcher was left untouched' }
 @(
-    'pm grant com.gathin.tvhome android.permission.ACCESS_FINE_LOCATION 2>/dev/null; echo location-granted',
     'cmd package set-home-activity --user 0 com.gathin.tvhome',
     "pm disable-user --user 0 $StockLauncher"
 ) | & $py -I ..\tools\tv.py --batch
