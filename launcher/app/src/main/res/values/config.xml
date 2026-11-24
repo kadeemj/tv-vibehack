@@ -15,7 +15,6 @@
 
     <!-- Apps never shown in the list or the grid. -->
     <string-array name="hidden_apps">
-        <item>com.vt.tv.tvcenter</item>
         <item>com.vt.hishow</item>
         <item>com.vt.tv.protector</item>
         <item>com.vt.tv.singlelisten</item>
