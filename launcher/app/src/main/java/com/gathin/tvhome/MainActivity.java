@@ -45,7 +45,6 @@ public class MainActivity extends Activity implements AppAdapter.TileListener, L
     /** Tiles per row and dock slots (res/values/config.xml, columns). Set in onCreate. */
     static int COLUMNS = 4;
     private static final long MINUTE_MS = 60_000L;
-    private String liveTvPkg;
 
     private AppAdapter adapter;
     private RecyclerView grid;
@@ -102,7 +101,6 @@ public class MainActivity extends Activity implements AppAdapter.TileListener, L
         setContentView(R.layout.activity_main);
         density = getResources().getDisplayMetrics().density;
         COLUMNS = Math.max(1, getResources().getInteger(R.integer.columns));
-        liveTvPkg = getString(R.string.live_tv_package).trim();
 
         root = findViewById(R.id.root);
         glass = findViewById(R.id.glass);

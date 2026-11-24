@@ -1,5 +1,5 @@
 # Xiaomi MiTV-AXSO0 (codename dangal), Android TV 9 (SDK 28), firmware PI.6036, Amlogic/droidlogic.
-# Live TV app: com.android.tv (set it as live_tv_package and hide it in launcher config.xml).
+# Live TV app: com.android.tv.
 # Stock launcher: com.google.android.tvlauncher (the default, disabled by build-and-install.sh).
 #
 # Apply:   TV_HOST=<tv ip> tools/disable.sh examples/xiaomi-mitv-axso0/debloat.txt

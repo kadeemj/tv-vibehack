@@ -13,7 +13,7 @@
         <item>com.hulu.livingroomplus</item>
     </string-array>
 
-    <!-- Apps never shown as tiles (e.g. the Live TV app, which the Inputs menu already covers). -->
+    <!-- Apps never shown in the list or the grid. -->
     <string-array name="hidden_apps">
         <item>com.vt.tv.tvcenter</item>
         <item>com.vt.hishow</item>
@@ -22,9 +22,6 @@
         <item>com.vt.tv.ai_sense</item>
         <item>com.vt.tv.mobiledeviceconnectiontips</item>
     </string-array>
-
-    <!-- The TV's Live TV / tuner app, offered at the end of the Inputs menu. Leave empty to omit. -->
-    <string name="live_tv_package" translatable="false">com.vt.tv.tvcenter</string>
 
     <!-- Tiles per row in the grid; the dock always has this many slots. -->
     <integer name="columns">4</integer>
