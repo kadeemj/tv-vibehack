@@ -3,10 +3,13 @@
 **Your TV, minus the ads.**
 
 Strip the bloatware from any Android TV or Google TV over Wi-Fi, and replace the ad-filled home
-screen with a clean launcher that looks like an Apple TV. No root, no cable, nothing uninstalled,
-and a one-line restore if you change your mind.
+screen with a clean launcher: your apps over a photo, and nothing else. No root, no cable, nothing
+uninstalled, and a one-line restore if you change your mind.
 
-![Before: stock Google TV home with a sponsored ad. After: the tv-vibehack launcher](docs/stock-vs-new-side.jpg)
+![Before: stock Google TV home with a sponsored ad. After: an earlier version of the tv-vibehack launcher](docs/stock-vs-new-side.jpg)
+
+*The "after" photo shows an earlier design. The current home screen is described under
+[What you get](#what-you-get).*
 
 It started as an afternoon fixing my parents' Mi TV, which showed them an advert before they
 could reach Netflix. The whole thing was done with Claude Code talking to the real TV, and the
@@ -69,17 +72,20 @@ first time; with this repo as context, people report about fifteen minutes.
 
 A home screen that is yours again:
 
-- **Pitch-black background** and a dock of your four favourite apps at the bottom, in a lighter
-  rounded band, exactly where Apple TV puts it.
-- **A top shelf** showing the focused app's name in large type, with an ambient glow in a colour
-  taken from the app's own artwork.
-- **The rest of your apps in a grid** that slides up when you press Down.
-- **One floating glass highlight** that springs from tile to tile instead of each tile drawing its
-  own border. The focused tile lifts slightly and shows its name.
-- **Three frosted buttons**: Inputs (a dropdown of HDMI ports, AV and Live TV), Wi-Fi (showing the
-  network you're on) and Settings.
-- **A greeting, a large thin clock and the date**, set in
-  [Outfit](https://fonts.google.com/specimen/Outfit).
+- **A photo wallpaper** filling the screen, with nothing on top of it but your apps and a clock.
+- **Your apps in one list**, each with its icon in a frosted chip beside its name. Your favourites
+  come first, in the order you chose; everything else follows alphabetically.
+- **One floating glass highlight** that springs from row to row. The focused row brightens and
+  the others dim, so you always see where you are.
+- **Two frosted buttons**, bottom right: All apps and Settings. Press Right from the list to reach
+  them.
+- **An "All apps" grid** in the Apple TV style: your four favourites in a dock, the rest in tiles
+  that slide up when you press Down, and the focused dock app's name in large type over a glow
+  in a colour taken from its artwork. Back returns to the list.
+- **A large thin clock**, top right, set in [Outfit](https://fonts.google.com/specimen/Outfit).
+- **App info on long-press**: hold OK on any app to open its system settings page.
+- **A remote button fix**, optional, that makes branded buttons such as YouTube open the right
+  app on TVs whose firmware leaves them unmapped.
 - **A matching Clock screensaver**, optional, that drifts around the screen so nothing burns in.
 
 And a TV that stops working against you: no sponsored rows, no "Discover" nags, no analytics
@@ -152,7 +158,7 @@ AndroidX RecyclerView and nothing heavier. It is built for sets with 1 GB of RAM
 video, no network, no background services.
 
 **Configure** it in [`launcher/app/src/main/res/values/config.xml`](launcher/app/src/main/res/values/config.xml):
-the dock order, apps to hide, your TV's Live TV package, and the number of columns.
+your favourite apps and their order, apps to hide, and the number of columns in the grid.
 
 **Build and install** with one command:
 
@@ -171,9 +177,10 @@ Without Homebrew, the script also finds a JDK 17 known to `/usr/libexec/java_hom
 `~/Library/Android/sdk`, Android Studio's default. A release build (`./gradlew assembleRelease`)
 is smaller and faster on 1 GB sets; sign it yourself before installing.
 
-**Navigation** is deliberate: Up and Down move exactly one row, Up from the dock goes to the top
-buttons, the ends of the button row don't fall through to tiles, and the last focused app is
-remembered when you come back, even after the app list changes.
+**Navigation** is deliberate: Up and Down move exactly one row, Right from the list jumps to the
+two buttons and Left goes back to the row you left, the ends of the button row don't fall through
+to anything else, and Back from the grid returns to the list. The last focused app is remembered
+when you come back, even after the app list changes.
 
 <details>
 <summary><strong>Optional: the Clock screensaver</strong></summary>

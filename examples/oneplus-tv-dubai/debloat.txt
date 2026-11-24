@@ -9,7 +9,6 @@
 # (com.google.android.apps.mediashell) and the streaming apps. Left alone: the factory apps
 # (com.heytap.optvfactory, com.oneplus.tv.factory) and com.heytap.oprcupgradeservice (remote updates).
 # With the stock launcher disabled and no other home installed, Home falls back to Settings.
-# For the launcher's Inputs menu set live_tv_package to com.heytap.tv.livetv in config.xml.
 # Seen on this unit: Developer options -> "Don't keep activities" was switched on, which makes every
 # app restart when you leave it. Check it is off.
 
