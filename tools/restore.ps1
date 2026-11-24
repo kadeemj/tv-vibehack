@@ -16,7 +16,11 @@ $py = Join-Path $repo 'tools\venv\Scripts\python.exe'
 if (-not $TvHost) { throw 'pass -TvHost <tv ip> or set $env:TV_HOST' }
 $env:TV_HOST = $TvHost
 
-$pkgs = Get-Content $List | ForEach-Object { ($_ -replace '#.*$', '').Trim() } | Where-Object { $_ }
+$pkgs = @(Get-Content $List | ForEach-Object { (($_ -replace '#.*$', '').Trim() -split '\s+')[0] } | Where-Object { $_ })
+# Entries are pasted into shell commands that run on the TV, so accept plain package names only.
+$bad = @($pkgs | Where-Object { $_ -notmatch '^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*$' })
+if ($bad) { throw "refusing to run: not a package name in ${List}: $($bad -join ', ')" }
+if ($Stock -notmatch '^[A-Za-z0-9_.]+$') { throw "refusing to run: not a package name: $Stock" }
 $cmds = @($pkgs | ForEach-Object { "pm enable $_" }) + @(
     "pm enable $Stock",
     "cmd package set-home-activity --user 0 $Stock",

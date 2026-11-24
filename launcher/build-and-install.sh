@@ -4,6 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 : "${TV_HOST:?set TV_HOST to the TV IP address, e.g. TV_HOST=192.168.1.50 $0}"
 STOCK_LAUNCHER="${STOCK_LAUNCHER:-com.google.android.tvlauncher}"
+case "$STOCK_LAUNCHER" in *[!A-Za-z0-9_.]*|"") echo "STOCK_LAUNCHER is not a package name: $STOCK_LAUNCHER" >&2; exit 1 ;; esac
 export JAVA_HOME="${JAVA_HOME:-$(/usr/libexec/java_home -v 17 2>/dev/null || echo /opt/homebrew/opt/openjdk@17)}"
 export ANDROID_HOME="${ANDROID_HOME:-$([ -d ~/Library/Android/sdk ] && echo ~/Library/Android/sdk || echo /opt/homebrew/share/android-commandlinetools)}"
 export PATH="$JAVA_HOME/bin:$PATH"
@@ -17,7 +18,6 @@ APK=app/build/outputs/apk/debug/app-debug.apk
 printf '%s\n' \
   "pm install -r /data/local/tmp/tvhome.apk" \
   "rm -f /data/local/tmp/tvhome.apk" \
-  "pm grant com.gathin.tvhome android.permission.ACCESS_FINE_LOCATION 2>/dev/null; echo location-granted" \
   "cmd package set-home-activity --user 0 com.gathin.tvhome/.MainActivity" \
   "pm disable-user --user 0 $STOCK_LAUNCHER" \
   | "$PY" -I ../tools/tv.py --batch

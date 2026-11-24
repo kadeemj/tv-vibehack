@@ -28,6 +28,9 @@ def get_signer():
     os.makedirs(KEYDIR, exist_ok=True)
     if not os.path.exists(KEY):
         keygen(KEY)
+    # The private key is a full shell on the TV: keep it readable by this user only (no-op on Windows).
+    os.chmod(KEYDIR, 0o700)
+    os.chmod(KEY, 0o600)
     with open(KEY) as f:
         priv = f.read()
     with open(KEY + ".pub") as f:

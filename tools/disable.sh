@@ -10,7 +10,11 @@ PY=tools/venv/bin/python
 [ -x "$PY" ] || PY=tools/venv/Scripts/python.exe
 export MSYS_NO_PATHCONV=1
 [ -x "$PY" ] || { echo "run: python3 -m venv tools/venv && tools/venv/bin/pip install -r tools/requirements.txt"; exit 1; }
+# Entries are pasted into shell commands that run on the TV, so accept plain package names only.
+PKGS=$(tr -d '\r' < "$LIST" | grep -vE '^\s*(#|$)' | sed -E 's/\s+#.*$//' | awk '{print $1}' || true)
+BAD=$(printf '%s\n' "$PKGS" | grep -vE '^[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*$' | grep -v '^$' || true)
+[ -z "$BAD" ] || { echo "refusing to run: not a package name in $LIST:"; printf '%s\n' "$BAD" | sed 's/^/  /'; exit 1; } >&2
 {
-  grep -vE '^\s*(#|$)' "$LIST" | sed -E 's/\s+#.*$//' | awk '{print "pm disable-user --user 0 " $1}'
+  [ -z "$PKGS" ] || printf '%s\n' "$PKGS" | awk '{print "pm disable-user --user 0 " $1}'
   echo "pm list packages -d"
 } | "$PY" -I tools/tv.py --batch

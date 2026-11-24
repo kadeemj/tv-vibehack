@@ -5,9 +5,6 @@
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!-- Needed on Android 10 to read the Wi-Fi network name; granted over adb at install time. -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <!-- Android 11+ package visibility: lets the launcher list and open every TV app. -->
     <queries>
